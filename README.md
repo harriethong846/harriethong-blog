@@ -16,6 +16,8 @@
 
 ## 本地打开
 
+Windows 用户可以直接双击 `start-editor.cmd`。它会启动本地服务并打开编辑器。
+
 需要 Node.js 18 或更高版本：
 
 ```powershell
