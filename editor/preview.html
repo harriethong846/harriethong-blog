@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../assets/site.css">
+    <title>网站预览</title>
+  </head>
+  <body data-manual-render="true">
+    <div id="site-root"></div>
+    <script src="../assets/site.js"></script>
+    <script>
+      try {
+        const draft = localStorage.getItem("harriethong-site-draft-v1");
+        if (!draft) throw new Error("还没有保存的草稿");
+        SiteRenderer.render(JSON.parse(draft), { root: document.querySelector("#site-root") });
+      } catch (error) {
+        document.querySelector("#site-root").textContent = error.message;
+      }
+    </script>
+  </body>
+</html>

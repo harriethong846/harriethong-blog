@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../assets/site.css">
+    <link rel="stylesheet" href="editor.css">
+    <title>Harriet 网站编辑器</title>
+  </head>
+  <body class="editor-body">
+    <header class="editor-topbar">
+      <div class="editor-mark"><span class="mark-dot"></span><strong>Harriet Editor</strong></div>
+      <div class="topbar-center">
+        <label for="page-select">正在编辑</label>
+        <select id="page-select"></select>
+        <button class="icon-button" id="add-page" title="添加页面">＋</button>
+      </div>
+      <div class="topbar-actions">
+        <span id="save-status">已保存</span>
+        <button class="ghost-button" id="preview-button">预览</button>
+        <button class="primary-button" id="publish-button">发布到 GitHub</button>
+      </div>
+    </header>
+
+    <div class="editor-layout">
+      <aside class="tool-panel">
+        <div class="panel-tabs" role="tablist">
+          <button class="panel-tab active" data-tab="blocks">内容</button>
+          <button class="panel-tab" data-tab="templates">模板</button>
+          <button class="panel-tab" data-tab="settings">设计</button>
+        </div>
+
+        <div class="panel-content active" data-panel="blocks">
+          <p class="panel-help">点击添加区块，然后直接在画布中修改文字。</p>
+          <div class="block-grid">
+            <button data-add-block="hero"><span>H1</span>大标题</button>
+            <button data-add-block="text"><span>¶</span>文字</button>
+            <button data-add-block="quote"><span>“</span>引用</button>
+            <button data-add-block="image"><span>▧</span>图片</button>
+            <button data-add-block="divider"><span>—</span>分隔线</button>
+          </div>
+          <div class="panel-section">
+            <div class="section-heading"><h3>页面</h3><button id="rename-page">重命名</button></div>
+            <div id="page-list" class="page-list"></div>
+          </div>
+          <div class="panel-section">
+            <div class="section-heading"><h3>侧边栏</h3></div>
+            <label class="toggle-row"><span>显示侧边栏</span><input id="sidebar-enabled" type="checkbox"><i></i></label>
+            <div class="segmented" id="sidebar-position">
+              <button data-position="left">左侧</button>
+              <button data-position="right">右侧</button>
+            </div>
+            <div id="sidebar-link-list" class="sidebar-link-editor"></div>
+            <button class="wide-button" id="add-sidebar-link">＋ 添加侧边栏链接</button>
+          </div>
+        </div>
+
+        <div class="panel-content" data-panel="templates">
+          <p class="panel-help">模板会替换当前页面内容，站点名称和其他页面保持不变。</p>
+          <button class="template-card template-forest" data-template="personal"><b>个人主页</b><span>大标题、简介和重点内容</span></button>
+          <button class="template-card template-paper" data-template="journal"><b>文章手记</b><span>适合长文、读书和研究笔记</span></button>
+          <button class="template-card template-ink" data-template="minimal"><b>极简档案</b><span>安静、清晰的个人档案布局</span></button>
+        </div>
+
+        <div class="panel-content" data-panel="settings">
+          <div class="field-group"><label for="site-title">网站名称</label><input id="site-title" type="text"></div>
+          <div class="field-group"><label for="site-tagline">网站说明</label><input id="site-tagline" type="text"></div>
+          <div class="color-grid">
+            <label>主题色<input id="color-accent" type="color"></label>
+            <label>背景色<input id="color-bg" type="color"></label>
+            <label>卡片色<input id="color-surface" type="color"></label>
+            <label>文字色<input id="color-text" type="color"></label>
+          </div>
+          <div class="field-group"><label for="font-select">字体风格</label><select id="font-select"><option value="system">现代无衬线</option><option value="serif">经典衬线</option><option value="modern">简洁无衬线</option></select></div>
+          <div class="panel-section compact">
+            <button class="wide-button" id="export-json">导出备份</button>
+            <label class="wide-button file-button">导入备份<input id="import-json" type="file" accept="application/json"></label>
+            <button class="wide-button danger" id="reset-site">恢复示例内容</button>
+          </div>
+        </div>
+      </aside>
+
+      <main class="canvas-area">
+        <div class="canvas-note">点击文字即可编辑 · 点击区块可移动或删除</div>
+        <div class="canvas-viewport">
+          <div id="canvas-root"></div>
+        </div>
+      </main>
+
+      <aside class="inspector-panel">
+        <div class="inspector-empty" id="inspector-empty">
+          <span>✦</span><h3>选择一个区块</h3><p>点击中间画布里的内容，可以在这里调整链接、图片及其他设置。</p>
+        </div>
+        <div id="inspector-content" hidden></div>
+      </aside>
+    </div>
+
+    <div class="modal-backdrop" id="publish-modal" hidden>
+      <section class="modal-card" role="dialog" aria-modal="true" aria-labelledby="publish-title">
+        <button class="modal-close" data-close-modal>×</button>
+        <p class="modal-kicker">GITHUB PAGES</p>
+        <h2 id="publish-title">发布网站内容</h2>
+        <p>填写仓库信息和一个具有该仓库 Contents 读写权限的 fine-grained token。令牌只保存在当前浏览器会话，不会写入网站或仓库。</p>
+        <div class="modal-grid">
+          <label>GitHub 用户名<input id="github-owner" placeholder="例如 harriethong"></label>
+          <label>仓库名称<input id="github-repo" placeholder="例如 personal-website"></label>
+          <label>分支<input id="github-branch" value="main"></label>
+          <label>访问令牌<input id="github-token" type="password" placeholder="github_pat_..."></label>
+        </div>
+        <div id="publish-message" class="publish-message"></div>
+        <div class="modal-actions"><button class="ghost-button" data-close-modal>取消</button><button class="primary-button" id="confirm-publish">立即发布</button></div>
+      </section>
+    </div>
+
+    <script src="../assets/site.js"></script>
+    <script src="editor.js"></script>
+  </body>
+</html>

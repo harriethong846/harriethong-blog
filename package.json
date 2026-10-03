@@ -1,0 +1,10 @@
+{
+  "name": "harriethong-visual-editor",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node server.mjs",
+    "check": "node --check assets/site.js && node --check editor/editor.js && node --check server.mjs"
+  }
+}

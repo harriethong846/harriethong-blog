@@ -1,0 +1,71 @@
+{
+  "version": 1,
+  "site": {
+    "title": "Harriet Hong",
+    "tagline": "Ideas, notes, and selected work",
+    "accent": "#315c4c",
+    "background": "#f6f3ec",
+    "surface": "#fffdf8",
+    "text": "#1f2723",
+    "font": "system",
+    "maxWidth": 1180
+  },
+  "navigation": [
+    { "label": "首页", "page": "home" },
+    { "label": "关于", "page": "about" }
+  ],
+  "sidebar": {
+    "enabled": true,
+    "position": "right",
+    "title": "关于我",
+    "body": "在这里写一段简短介绍，帮助访客快速了解你。",
+    "links": [
+      { "label": "联系我", "url": "mailto:hello@example.com" },
+      { "label": "GitHub", "url": "https://github.com/" }
+    ]
+  },
+  "pages": [
+    {
+      "slug": "home",
+      "title": "首页",
+      "blocks": [
+        {
+          "id": "hero-welcome",
+          "type": "hero",
+          "eyebrow": "WELCOME",
+          "title": "你好，我是 Harriet。",
+          "body": "这是你的个人网站。点击任何文字即可直接编辑，也可以从左侧添加新的内容区块。",
+          "buttonLabel": "了解更多",
+          "buttonUrl": "?page=about"
+        },
+        {
+          "id": "text-first",
+          "type": "text",
+          "title": "从这里开始",
+          "body": "你可以在这里分享文章、项目、研究、旅行记录，或任何想长期保存的内容。"
+        },
+        {
+          "id": "quote-first",
+          "type": "quote",
+          "body": "一个好网站首先应该让写作和更新变得轻松。",
+          "caption": "— Harriet"
+        }
+      ]
+    },
+    {
+      "slug": "about",
+      "title": "关于",
+      "blocks": [
+        {
+          "id": "hero-about",
+          "type": "hero",
+          "eyebrow": "ABOUT",
+          "title": "关于 Harriet",
+          "body": "在这里介绍你的经历、兴趣和正在做的事情。",
+          "buttonLabel": "给我写信",
+          "buttonUrl": "mailto:hello@example.com"
+        }
+      ]
+    }
+  ]
+}
