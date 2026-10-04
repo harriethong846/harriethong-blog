@@ -1,125 +1,40 @@
 const SiteRenderer = (() => {
-  const safeUrl = (value = "") => {
-    const trimmed = String(value).trim();
-    return /^(https?:|mailto:|tel:|\?|#|\/|\.\.?\/|[a-z0-9_-]+\/)/i.test(trimmed) ? trimmed : "#";
-  };
-
-  const el = (tag, className, text) => {
-    const node = document.createElement(tag);
-    if (className) node.className = className;
-    if (text !== undefined) node.textContent = text;
-    return node;
-  };
-
-  function applyTheme(site) {
+  const safeUrl = (value = "") => /^(https?:|mailto:|tel:|\?|#|\/)/i.test(String(value).trim()) ? String(value).trim() : "#";
+  const el = (tag, className, text) => { const node = document.createElement(tag); if (className) node.className = className; if (text !== undefined) node.textContent = text; return node; };
+  function applyTheme(site = {}) {
     const root = document.documentElement;
-    root.style.setProperty("--accent", site.accent || "#315c4c");
-    root.style.setProperty("--bg", site.background || "#f6f3ec");
-    root.style.setProperty("--surface", site.surface || "#fffdf8");
-    root.style.setProperty("--text", site.text || "#1f2723");
-    root.style.setProperty("--max-width", `${site.maxWidth || 1180}px`);
-    const fonts = {
-      system: 'Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
-      serif: 'Georgia, "Times New Roman", serif',
-      modern: 'Arial, Helvetica, sans-serif'
-    };
-    root.style.setProperty("--font", fonts[site.font] || fonts.system);
+    [["--accent", site.accent || "#8fd3ff"], ["--bg", site.background || "#0d1117"], ["--surface", site.surface || "#151b23"], ["--text", site.text || "#edf4f8"], ["--muted", site.muted || "#9aa8b5"], ["--max-width", `${site.maxWidth || 1220}px`]].forEach(([key, value]) => root.style.setProperty(key, value));
+    root.style.setProperty("--font", site.font === "serif" ? "Georgia, serif" : "Inter, ui-sans-serif, system-ui, sans-serif");
   }
-
-  function renderBlock(block, editable = false) {
-    let node;
-    if (block.type === "hero") {
-      node = el("section", "content-block block-hero");
-      node.append(el("p", "eyebrow", block.eyebrow || ""));
-      node.append(el("h1", "", block.title || "无标题"));
-      node.append(el("p", "body", block.body || ""));
-      if (block.buttonLabel) {
-        const link = el("a", "button-link", block.buttonLabel);
-        link.href = editable ? "#" : safeUrl(block.buttonUrl);
-        node.append(link);
-      }
-    } else if (block.type === "quote") {
-      node = el("figure", "content-block block-quote");
-      node.append(el("blockquote", "", block.body || "引用文字"));
-      node.append(el("figcaption", "", block.caption || ""));
-    } else if (block.type === "image") {
-      node = el("figure", "content-block block-image");
-      const img = el("img");
-      img.src = safeUrl(block.url) === "#" ? "https://images.unsplash.com/photo-1499750310107-5fef28a66643?auto=format&fit=crop&w=1400&q=80" : block.url;
-      img.alt = block.alt || "";
-      node.append(img, el("figcaption", "", block.caption || ""));
-    } else if (block.type === "divider") {
-      node = el("div", "content-block block-divider");
-    } else {
-      node = el("section", "content-block block-text");
-      node.append(el("h2", "", block.title || "新标题"));
-      node.append(el("p", "", block.body || "在这里输入内容。"));
-    }
-    node.dataset.blockId = block.id;
-    return node;
+  function articleUrl(article) { return `?post=${encodeURIComponent(article.slug)}`; }
+  function renderHeader(data, current) {
+    const header = el("header", "blog-header"); const brand = el("a", "blog-brand"); brand.href = "?page=home"; brand.append(el("span", "brand-logo", data.site.logo || "*"), el("span", "brand-name", data.site.title));
+    const nav = el("nav", "blog-nav"); (data.navigation || []).forEach((item) => { const link = el("a", item.page === current ? "active" : "", item.label); link.href = `?page=${encodeURIComponent(item.page)}`; nav.append(link); });
+    const tools = el("div", "header-tools"); const search = el("button", "header-tool", "?"); search.title = "Search"; search.addEventListener("click", () => document.querySelector("#blog-search")?.focus()); const theme = el("button", "header-tool", document.documentElement.classList.contains("light-mode") ? "dark" : "light"); theme.title = "Toggle theme"; theme.addEventListener("click", () => { document.documentElement.classList.toggle("light-mode"); theme.textContent = document.documentElement.classList.contains("light-mode") ? "dark" : "light"; }); tools.append(search, theme); header.append(brand, nav, tools); return header;
   }
-
-  function render(data, options = {}) {
-    const root = options.root || document.querySelector("#site-root");
-    if (!root) return;
-    applyTheme(data.site || {});
-    const queryPage = new URLSearchParams(location.search).get("page");
-    const slug = options.page || queryPage || data.pages?.[0]?.slug;
-    const page = data.pages?.find((item) => item.slug === slug) || data.pages?.[0];
-    root.replaceChildren();
-
-    const header = el("header", "site-header");
-    const brand = el("a", "brand", data.site?.title || "My Site");
-    brand.href = options.editable ? "#" : "?page=home";
-    const nav = el("nav", "site-nav");
-    (data.navigation || []).forEach((item) => {
-      const link = el("a", "", item.label);
-      link.href = options.editable ? "#" : `?page=${encodeURIComponent(item.page)}`;
-      if (item.page === page?.slug) link.setAttribute("aria-current", "page");
-      nav.append(link);
-    });
-    header.append(brand, nav);
-
-    const shell = el("div", "site-shell");
-    const sidebar = data.sidebar || {};
-    if (!sidebar.enabled) shell.classList.add("no-sidebar");
-    if (sidebar.enabled && sidebar.position === "left") shell.classList.add("sidebar-left");
-    const main = el("main", "site-main");
-    if (!page?.blocks?.length) main.append(el("div", "empty-state", "这个页面还没有内容。"));
-    (page?.blocks || []).forEach((block) => main.append(renderBlock(block, options.editable)));
-    shell.append(main);
-    if (sidebar.enabled) {
-      const aside = el("aside", "sidebar");
-      const card = el("div", "sidebar-card");
-      card.append(el("h2", "", sidebar.title || "侧边栏"), el("p", "", sidebar.body || ""));
-      const links = el("div", "sidebar-links");
-      (sidebar.links || []).forEach((item) => {
-        const link = el("a", "", item.label);
-        link.href = options.editable ? "#" : safeUrl(item.url);
-        links.append(link);
-      });
-      card.append(links);
-      aside.append(card);
-      shell.append(aside);
-    }
-    const footer = el("footer", "site-footer", `© ${new Date().getFullYear()} ${data.site?.title || "My Site"}`);
-    root.append(header, shell, footer);
-    document.title = `${page?.title || "网站"} — ${data.site?.title || "My Site"}`;
+  function renderSidebar(data, filter = "all") {
+    const aside = el("aside", "blog-sidebar"); aside.append(el("p", "sidebar-kicker", "NAVIGATION"), el("h2", "sidebar-title", data.sidebar?.title || "Directory"), el("p", "sidebar-intro", data.sidebar?.intro || ""));
+    (data.sidebar?.sections || []).forEach((section) => { const group = el("section", "sidebar-section"); group.append(el("h3", "sidebar-section-title", section.title)); const links = el("div", "sidebar-items"); (section.items || []).forEach((item) => { const link = el("a", item.filter === filter ? "selected" : "", item.label); link.href = item.filter ? `?page=articles&filter=${encodeURIComponent(item.filter)}` : safeUrl(item.url); links.append(link); }); group.append(links); aside.append(group); }); return aside;
   }
-
-  return { render, renderBlock, applyTheme };
+  function articleCard(article, featured = false) {
+    const card = el("article", featured ? "article-card featured" : "article-card"); card.append(el("div", "article-meta", `${article.date}  ·  ${article.category}`), el("h2", "article-card-title", article.title), el("p", "article-excerpt", article.excerpt || "")); const link = el("a", "read-link", "Read article ->"); link.href = articleUrl(article); card.append(link); if (article.tags?.length) { const tags = el("div", "article-tags"); article.tags.forEach((tag) => tags.append(el("span", "tag", `#${tag}`))); card.append(tags); } return card;
+  }
+  function renderHome(data) {
+    const main = el("main", "blog-main home-main"); const hero = el("section", "blog-hero"); hero.append(el("p", "hero-kicker", "PERSONAL NOTES / 2026"), el("h1", "hero-title", data.site.title), el("p", "hero-tagline", data.site.tagline)); const actions = el("div", "hero-actions"); const primary = el("a", "hero-button primary", "Browse articles"); primary.href = "?page=articles"; const secondary = el("a", "hero-button", "About me"); secondary.href = "?page=about"; actions.append(primary, secondary); hero.append(actions); main.append(hero);
+    const featured = (data.articles || []).find((item) => item.featured && item.published) || (data.articles || []).find((item) => item.published); if (featured) { const heading = el("div", "section-heading"); heading.append(el("p", "section-kicker", "FEATURED")); const more = el("a", "section-link", "View all ->"); more.href = "?page=articles"; heading.append(more); main.append(heading, articleCard(featured, true)); }
+    const heading = el("div", "section-heading"); heading.append(el("p", "section-kicker", "LATEST NOTES")); const list = el("div", "article-list"); (data.articles || []).filter((item) => item.published).slice(0, 5).forEach((article) => list.append(articleCard(article))); main.append(heading, list); return main;
+  }
+  function renderArticles(data, filter = "all", search = "") {
+    const main = el("main", "blog-main articles-main"); main.append(el("p", "hero-kicker", "WRITING"), el("h1", "page-title", "Articles and notes"), el("p", "page-intro", "Ideas, study notes, and small pieces of life in progress.")); const searchWrap = el("label", "search-wrap"); const input = el("input"); input.id = "blog-search"; input.placeholder = "Search title, summary, or tag..."; input.value = search; searchWrap.append(el("span", "search-icon", "?"), input); main.append(searchWrap);
+    const query = search.toLowerCase(); const articles = (data.articles || []).filter((article) => article.published && (filter === "all" || article.category === filter) && (!query || `${article.title} ${article.excerpt} ${(article.tags || []).join(" ")}`.toLowerCase().includes(query))); const list = el("div", "article-list"); if (!articles.length) list.append(el("p", "empty-state", "No matching articles yet.")); articles.forEach((article) => list.append(articleCard(article))); main.append(list); input.addEventListener("input", () => { const next = new URLSearchParams(location.search); next.set("page", "articles"); if (input.value) next.set("q", input.value); else next.delete("q"); history.replaceState({}, "", `?${next}`); renderDocument(data); }); return main;
+  }
+  function renderArticle(data, article) { const main = el("main", "blog-main article-main"); if (!article) { main.append(el("h1", "page-title", "Article not found")); return main; } main.append(el("p", "hero-kicker", `${article.category}  /  ${article.date}`), el("h1", "article-title", article.title), el("p", "article-lede", article.excerpt || "")); const body = el("div", "article-body"); String(article.body || "").split(/\n\s*\n/).forEach((paragraph) => body.append(el("p", "", paragraph))); main.append(body); if (article.tags?.length) { const tags = el("div", "article-tags article-tags-footer"); article.tags.forEach((tag) => tags.append(el("span", "tag", `#${tag}`))); main.append(tags); } const back = el("a", "back-link", "<- Back to articles"); back.href = "?page=articles"; main.append(back); return main; }
+  function renderAbout(data) { const page = data.pages?.about || {}; const main = el("main", "blog-main about-main"); main.append(el("p", "hero-kicker", page.eyebrow || "ABOUT"), el("h1", "page-title", page.heading || page.title || "About me")); const body = el("div", "article-body"); String(page.body || "").split(/\n\s*\n/).forEach((paragraph) => body.append(el("p", "", paragraph))); main.append(body); return main; }
+  function renderDocument(data, options = {}) {
+    const root = options.root || document.querySelector("#site-root"); if (!root) return; applyTheme(data.site || {}); const params = new URLSearchParams(location.search); const post = options.post || params.get("post"); const page = options.page || params.get("page") || (post ? "articles" : "home"); const filter = options.filter || params.get("filter") || "all"; const search = options.search || params.get("q") || ""; root.replaceChildren(renderHeader(data, page)); const layout = el("div", `blog-layout${post || !data.sidebar?.enabled ? " no-sidebar" : ""}`); if (data.sidebar?.enabled && !post) layout.append(renderSidebar(data, filter)); let content; if (post) content = renderArticle(data, (data.articles || []).find((article) => article.slug === post)); else if (page === "about") content = renderAbout(data); else if (page === "articles") content = renderArticles(data, filter, search); else content = renderHome(data); layout.append(content); root.append(layout, el("footer", "blog-footer", `© ${new Date().getFullYear()} ${data.site.title} - Built with care`)); const title = post ? ((data.articles || []).find((article) => article.slug === post)?.title || "Article") : page === "home" ? data.site.title : page === "about" ? "About" : "Articles"; document.title = `${title} - ${data.site.title}`;
+  }
+  function render(data, options = {}) { renderDocument(data, options); }
+  return { render, renderDocument, applyTheme };
 })();
-
 window.SiteRenderer = SiteRenderer;
-
-if (document.querySelector("#site-root") && document.body.dataset.manualRender !== "true" && !document.body.classList.contains("editor-body")) {
-  fetch("content/site.json", { cache: "no-store" })
-    .then((response) => {
-      if (!response.ok) throw new Error("无法读取网站内容");
-      return response.json();
-    })
-    .then((data) => SiteRenderer.render(data))
-    .catch((error) => {
-      document.querySelector("#site-root").textContent = `${error.message}。请通过本地服务器或 GitHub Pages 打开。`;
-    });
-}
+if (document.querySelector("#site-root") && document.body.dataset.manualRender !== "true" && !document.body.classList.contains("editor-body")) { fetch("content/site.json", { cache: "no-store" }).then((response) => { if (!response.ok) throw new Error("Unable to read site content"); return response.json(); }).then((data) => SiteRenderer.render(data)).catch((error) => { document.querySelector("#site-root").textContent = `${error.message}. Open via a local server or GitHub Pages.`; }); }

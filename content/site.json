@@ -1,71 +1,79 @@
 {
-  "version": 1,
+  "version": 2,
   "site": {
-    "title": "Harriet Hong",
-    "tagline": "Ideas, notes, and selected work",
-    "accent": "#315c4c",
-    "background": "#f6f3ec",
-    "surface": "#fffdf8",
-    "text": "#1f2723",
+    "title": "harriethong'blog",
+    "shortTitle": "harriethong",
+    "tagline": "notes on ideas, work, reading, and everyday life",
+    "description": "A personal notebook by Harriet Hong.",
+    "accent": "#8fd3ff",
+    "background": "#0d1117",
+    "surface": "#151b23",
+    "text": "#edf4f8",
+    "muted": "#9aa8b5",
     "font": "system",
-    "maxWidth": 1180
+    "maxWidth": 1220,
+    "logo": "✦"
   },
   "navigation": [
     { "label": "首页", "page": "home" },
-    { "label": "关于", "page": "about" }
+    { "label": "关于我", "page": "about" },
+    { "label": "文章", "page": "articles" }
   ],
   "sidebar": {
     "enabled": true,
-    "position": "right",
-    "title": "关于我",
-    "body": "在这里写一段简短介绍，帮助访客快速了解你。",
-    "links": [
-      { "label": "联系我", "url": "mailto:hello@example.com" },
-      { "label": "GitHub", "url": "https://github.com/" }
+    "title": "目录",
+    "intro": "把正在学习、思考和写下来的东西放在这里。",
+    "sections": [
+      {
+        "title": "Writing",
+        "items": [
+          { "label": "全部文章", "filter": "all" },
+          { "label": "随笔", "filter": "随笔" },
+          { "label": "学习笔记", "filter": "学习笔记" },
+          { "label": "生活记录", "filter": "生活记录" }
+        ]
+      },
+      {
+        "title": "Links",
+        "items": [
+          { "label": "GitHub", "url": "https://github.com/harriethong846" },
+          { "label": "Email", "url": "mailto:hello@example.com" }
+        ]
+      }
     ]
   },
-  "pages": [
+  "pages": {
+    "about": {
+      "title": "关于我",
+      "eyebrow": "ABOUT",
+      "heading": "你好，我是 Harriet。",
+      "body": "这是我的个人博客。我会在这里记录正在学习的东西、工作中的思考、读过的书，以及一些不急着归类的生活片段。\n\n这个网站会持续更新，欢迎从文章列表开始阅读。"
+    }
+  },
+  "articles": [
     {
-      "slug": "home",
-      "title": "首页",
-      "blocks": [
-        {
-          "id": "hero-welcome",
-          "type": "hero",
-          "eyebrow": "WELCOME",
-          "title": "你好，我是 Harriet。",
-          "body": "这是你的个人网站。点击任何文字即可直接编辑，也可以从左侧添加新的内容区块。",
-          "buttonLabel": "了解更多",
-          "buttonUrl": "?page=about"
-        },
-        {
-          "id": "text-first",
-          "type": "text",
-          "title": "从这里开始",
-          "body": "你可以在这里分享文章、项目、研究、旅行记录，或任何想长期保存的内容。"
-        },
-        {
-          "id": "quote-first",
-          "type": "quote",
-          "body": "一个好网站首先应该让写作和更新变得轻松。",
-          "caption": "— Harriet"
-        }
-      ]
+      "id": "welcome",
+      "slug": "welcome-to-my-blog",
+      "title": "欢迎来到 harriethong'blog",
+      "date": "2026-10-04",
+      "category": "随笔",
+      "tags": ["开始", "个人网站"],
+      "excerpt": "这是博客的第一篇文章，也是一份写给未来自己的说明。",
+      "body": "我想把这里做成一个可以慢慢生长的个人空间。\n\n它不会只放一种内容：有时是学习笔记，有时是工作中的问题，有时只是一个值得留下来的想法。\n\n以后每次更新，我都会尽量让它保持清楚、诚实，也保留一点个人的语气。欢迎你来这里坐一会儿。",
+      "featured": true,
+      "published": true
     },
     {
-      "slug": "about",
-      "title": "关于",
-      "blocks": [
-        {
-          "id": "hero-about",
-          "type": "hero",
-          "eyebrow": "ABOUT",
-          "title": "关于 Harriet",
-          "body": "在这里介绍你的经历、兴趣和正在做的事情。",
-          "buttonLabel": "给我写信",
-          "buttonUrl": "mailto:hello@example.com"
-        }
-      ]
+      "id": "small-notes",
+      "slug": "small-notes-on-making",
+      "title": "关于持续创造的一点小想法",
+      "date": "2026-10-03",
+      "category": "学习笔记",
+      "tags": ["创作", "记录"],
+      "excerpt": "把一个想法写下来，往往比等待一个完美的版本更重要。",
+      "body": "我越来越相信，记录不是完成之后的附加动作，而是工作本身的一部分。\n\n写下过程，才能看见自己真正做了什么，也更容易发现下一步。",
+      "featured": false,
+      "published": true
     }
   ]
 }
