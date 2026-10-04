@@ -1,74 +1,47 @@
-# Harriet Visual Site Editor
+# harriethong'blog
 
-一个可直接托管在 GitHub Pages 上的个人网站和可视化编辑器。没有数据库，也没有构建依赖。
+一个文档式个人博客，灵感来自技术文档站点的清晰导航，但内容、视觉和代码均为独立实现。
 
-## 已实现
+## 在线地址
 
-- 直接点击画布编辑网站标题、导航、标题、正文、引用及图片说明
-- 添加、删除和移动内容区块
-- 添加左侧或右侧侧边栏
-- 个人主页、文章手记、极简档案三套模板
-- 添加和重命名页面
-- 调整主题色、背景、卡片色、文字色及字体风格
-- 浏览器自动保存、JSON 备份与恢复
-- 使用 GitHub API 将内容发布到仓库
-- 响应式手机布局
+- 网站：`https://harriethong846.github.io/harriethong-visual-editor/`
+- 可视化编辑器：`https://harriethong846.github.io/harriethong-visual-editor/editor/`
 
-## 本地打开
+## 添加文章
 
-Windows 用户可以直接双击 `start-editor.cmd`。它会启动本地服务并打开编辑器。
+打开编辑器后：
 
-需要 Node.js 18 或更高版本：
+1. 点击左上角 `＋` 或左侧 `新建文章`。
+2. 在右侧填写标题、URL slug、日期、分类、标签、摘要和正文。
+3. 打开 `发布文章` 开关。
+4. 点击右上角 `发布到 GitHub`，填写 GitHub fine-grained token。
+
+正文使用普通文字，段落之间留一个空行。文章会自动出现在首页精选/最新列表和文章页中，不需要修改代码。
+
+## 备份
+
+编辑器会把草稿保存在当前浏览器。需要长期保存或换设备时，在 `备份` 面板导出 JSON；恢复时导入同一个 JSON 文件。
+
+## 本地运行
+
+Windows 可双击 `start-editor.cmd`。或在项目目录运行：
 
 ```powershell
 npm start
 ```
 
-然后访问：
+编辑器地址：`http://localhost:4173/editor/`。
 
-- 编辑器：<http://localhost:4173/editor/>
-- 正式网站预览：<http://localhost:4173/>
+## GitHub Pages
 
-不要双击 HTML 文件直接打开，因为浏览器通常会阻止网页读取 `content/site.json`。
+仓库的 Pages 设置应为 `Deploy from a branch`、`main`、`/(root)`。编辑器发布按钮只更新 `content/site.json`，GitHub Pages 会自动重新部署。
 
-## 放到 GitHub Pages
+## harriethong.org 与子域名
 
-1. 在 GitHub 新建一个空仓库，例如 `harriethong-site`。
-2. 将本项目中的全部文件提交并推送到仓库的 `main` 分支。
-3. 打开仓库 **Settings → Pages**。
-4. 在 **Build and deployment** 中选择 **Deploy from a branch**。
-5. 选择 `main` 和 `/ (root)`，保存。
-6. GitHub 会给出类似 `https://用户名.github.io/harriethong-site/` 的网址。
+当前域名仍指向 Squarespace。确认 GitHub Pages 版本正常后，再在 GitHub Pages 的 Custom domain 中填写 `www.harriethong.org`，然后把 DNS 的 `www` CNAME 改为 `harriethong846.github.io`，并按 GitHub 页面显示的 A 记录替换根域名记录。不要删除邮箱相关的 MX/TXT 记录。
 
-编辑器地址是在网站地址末尾加 `/editor/`。
+建议的子域名结构：
 
-## 在线编辑并发布
-
-编辑器会将草稿自动保存到当前浏览器。要把修改发布到网站：
-
-1. 在 GitHub 的 **Settings → Developer settings → Personal access tokens → Fine-grained tokens** 创建令牌。
-2. Repository access 只选择该网站仓库。
-3. Repository permissions 将 **Contents** 设为 **Read and write**。
-4. 回到编辑器点击“发布到 GitHub”，填写用户名、仓库、分支和令牌。
-
-令牌只用于调用 GitHub API，并且只保存在当前页面的内存中；关闭或刷新页面后需要重新输入。仓库目标会保存，令牌不会保存。
-
-如果不想使用令牌，也可以点击“导出备份”，然后将生成的 JSON 文件重命名为 `site.json`，上传覆盖仓库的 `content/site.json`。
-
-## 将 harriethong.org 从 Squarespace 改到 GitHub Pages
-
-完成网站并确认 GitHub Pages 地址正常前，先不要更改当前 DNS。
-
-准备切换时：
-
-1. 将 `CNAME.example` 重命名为 `CNAME`。
-2. 在 GitHub Pages 设置中将 Custom domain 设为 `www.harriethong.org`。
-3. 在 WordPress.com DNS 中，把 `www` CNAME 从 `ext-cust.squarespace.com` 改为 `你的用户名.github.io`。
-4. 将根域名 `@` 的四条 Squarespace A 记录替换为 GitHub Pages 官方提供的四条 A 记录。
-5. 等 GitHub 显示 DNS check successful 后启用 **Enforce HTTPS**。
-
-DNS 切换前务必再次核对 GitHub 官方文档中最新的记录值。不要删除邮箱使用的 MX 和 TXT 记录。
-
-## 数据文件
-
-正式网站只读取 [`content/site.json`](content/site.json)。在线编辑器中的未发布草稿存放在浏览器 localStorage 中。发布按钮会把草稿提交到这个 JSON 文件。
+- `www.harriethong.org`：博客首页
+- `notes.harriethong.org`：以后可指向独立笔记站（可选）
+- `editor.harriethong.org`：不建议公开，编辑器暂时使用 GitHub Pages 的 `/editor/` 路径即可
