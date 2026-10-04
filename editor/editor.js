@@ -75,6 +75,23 @@
     $("#publish-button").addEventListener("click", () => { $("#github-owner").value = "harriethong846"; $("#github-repo").value = "harriethong-visual-editor"; $("#github-branch").value = "main"; $("#publish-message").textContent = ""; $("#publish-modal").hidden = false; });
     $$('[data-close-modal]').forEach((button) => button.addEventListener("click", () => { $("#publish-modal").hidden = true; })); $("#confirm-publish").addEventListener("click", publishToGithub);
   }
-  async function init() { try { const response = await fetch("../content/site.json", { cache: "no-store" }); if (!response.ok) throw new Error("无法载入网站数据"); originalState = await response.json(); const saved = localStorage.getItem(STORAGE_KEY); state = saved ? JSON.parse(saved) : clone(originalState); currentId = state.articles[0]?.id; bindUi(); renderAll(); } catch (error) { $(".canvas-area").textContent = error.message; } }
+  async function init() {
+    try {
+      const response = await fetch("../content/site.json", { cache: "no-store" });
+      if (!response.ok) throw new Error("无法载入网站数据");
+      originalState = await response.json();
+      const saved = localStorage.getItem(STORAGE_KEY);
+      let parsed = saved ? JSON.parse(saved) : null;
+      // Never render a legacy page-builder draft against the new blog renderer.
+      if (!parsed || parsed.version !== originalState.version || parsed.site?.title !== originalState.site?.title || !Array.isArray(parsed.articles)) {
+        parsed = clone(originalState);
+        localStorage.removeItem(STORAGE_KEY);
+      }
+      state = parsed;
+      currentId = state.articles[0]?.id;
+      bindUi();
+      renderAll();
+    } catch (error) { $(".canvas-area").textContent = error.message; }
+  }
   init();
 })();
