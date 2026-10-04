@@ -1,5 +1,5 @@
 {
-  "version": 2,
+  "version": 3,
   "site": {
     "title": "harriethong'blog",
     "shortTitle": "harriethong",
@@ -12,66 +12,72 @@
     "muted": "#9aa8b5",
     "font": "system",
     "maxWidth": 1220,
-    "logo": "✦"
+    "logo": "*"
   },
   "navigation": [
-    { "label": "首页", "page": "home" },
-    { "label": "关于我", "page": "about" },
-    { "label": "文章", "page": "articles" }
+    { "label": "\u9996\u9875", "page": "home" },
+    { "label": "\u5173\u4e8e\u6211", "page": "about" },
+    { "label": "\u6587\u7ae0", "page": "articles" }
   ],
   "sidebar": {
     "enabled": true,
-    "title": "目录",
-    "intro": "把正在学习、思考和写下来的东西放在这里。",
+    "title": "\u76ee\u5f55",
+    "intro": "\u628a\u6b63\u5728\u5b66\u4e60\u3001\u601d\u8003\u548c\u5199\u4e0b\u6765\u7684\u4e1c\u897f\u653e\u5728\u8fd9\u91cc\u3002",
     "sections": [
-      {
-        "title": "Writing",
-        "items": [
-          { "label": "全部文章", "filter": "all" },
-          { "label": "随笔", "filter": "随笔" },
-          { "label": "学习笔记", "filter": "学习笔记" },
-          { "label": "生活记录", "filter": "生活记录" }
-        ]
-      },
-      {
-        "title": "Links",
-        "items": [
-          { "label": "GitHub", "url": "https://github.com/harriethong846" },
-          { "label": "Email", "url": "mailto:hello@example.com" }
-        ]
-      }
+      { "title": "Writing", "items": [
+        { "label": "\u5168\u90e8\u6587\u7ae0", "filter": "all" },
+        { "label": "\u968f\u7b14", "filter": "\u968f\u7b14" },
+        { "label": "\u5b66\u4e60\u7b14\u8bb0", "filter": "\u5b66\u4e60\u7b14\u8bb0" },
+        { "label": "\u751f\u6d3b\u8bb0\u5f55", "filter": "\u751f\u6d3b\u8bb0\u5f55" }
+      ] },
+      { "title": "Links", "items": [
+        { "label": "GitHub", "url": "https://github.com/harriethong846" },
+        { "label": "Email", "url": "mailto:hello@example.com" }
+      ] }
     ]
   },
   "pages": {
     "about": {
-      "title": "关于我",
+      "title": "\u5173\u4e8e\u6211",
       "eyebrow": "ABOUT",
-      "heading": "你好，我是 Harriet。",
-      "body": "这是我的个人博客。我会在这里记录正在学习的东西、工作中的思考、读过的书，以及一些不急着归类的生活片段。\n\n这个网站会持续更新，欢迎从文章列表开始阅读。"
+      "heading": "\u4f60\u597d\uff0c\u6211\u662f Harriet\u3002",
+      "body": "\u8fd9\u662f\u6211\u7684\u4e2a\u4eba\u535a\u5ba2\u3002\u6211\u4f1a\u5728\u8fd9\u91cc\u8bb0\u5f55\u6b63\u5728\u5b66\u4e60\u7684\u4e1c\u897f\u3001\u5de5\u4f5c\u4e2d\u7684\u601d\u8003\u3001\u8bfb\u8fc7\u7684\u4e66\uff0c\u4ee5\u53ca\u4e00\u4e9b\u4e0d\u6025\u7740\u5f52\u7c7b\u7684\u751f\u6d3b\u7247\u6bb5\u3002\n\n\u8fd9\u4e2a\u7f51\u7ad9\u4f1a\u6301\u7eed\u66f4\u65b0\uff0c\u6b22\u8fce\u4ece\u6587\u7ae0\u5217\u8868\u5f00\u59cb\u9605\u8bfb\u3002"
     }
   },
   "articles": [
     {
       "id": "welcome",
       "slug": "welcome-to-my-blog",
-      "title": "欢迎来到 harriethong'blog",
+      "title": "\u6b22\u8fce\u6765\u5230 harriethong'blog",
       "date": "2026-10-04",
-      "category": "随笔",
-      "tags": ["开始", "个人网站"],
-      "excerpt": "这是博客的第一篇文章，也是一份写给未来自己的说明。",
-      "body": "我想把这里做成一个可以慢慢生长的个人空间。\n\n它不会只放一种内容：有时是学习笔记，有时是工作中的问题，有时只是一个值得留下来的想法。\n\n以后每次更新，我都会尽量让它保持清楚、诚实，也保留一点个人的语气。欢迎你来这里坐一会儿。",
+      "category": "\u968f\u7b14",
+      "tags": ["\u5f00\u59cb", "\u4e2a\u4eba\u7f51\u7ad9"],
+      "excerpt": "\u8fd9\u662f\u535a\u5ba2\u7684\u7b2c\u4e00\u7bc7\u6587\u7ae0\uff0c\u4e5f\u662f\u4e00\u4efd\u5199\u7ed9\u672a\u6765\u81ea\u5df1\u7684\u8bf4\u660e\u3002",
+      "bodyBlocks": [
+        { "type": "p", "text": "\u6211\u60f3\u628a\u8fd9\u91cc\u505a\u6210\u4e00\u4e2a\u53ef\u4ee5\u6162\u6162\u751f\u957f\u7684\u4e2a\u4eba\u7a7a\u95f4\u3002", "font": "system", "size": "medium" },
+        { "type": "h2", "text": "\u8fd9\u4e2a\u535a\u5ba2\u4f1a\u8bb0\u5f55\u4ec0\u4e48", "font": "system", "size": "large" },
+        { "type": "p", "text": "\u5b83\u4e0d\u4f1a\u53ea\u653e\u4e00\u79cd\u5185\u5bb9\uff1a\u6709\u65f6\u662f\u5b66\u4e60\u7b14\u8bb0\uff0c\u6709\u65f6\u662f\u5de5\u4f5c\u4e2d\u7684\u95ee\u9898\uff0c\u6709\u65f6\u53ea\u662f\u4e00\u4e2a\u503c\u5f97\u7559\u4e0b\u6765\u7684\u60f3\u6cd5\u3002", "font": "system", "size": "medium" },
+        { "type": "h3", "text": "\u6162\u6162\u66f4\u65b0", "font": "serif", "size": "medium" },
+        { "type": "p", "text": "\u4ee5\u540e\u6bcf\u6b21\u66f4\u65b0\uff0c\u6211\u90fd\u4f1a\u5c3d\u91cf\u8ba9\u5b83\u4fdd\u6301\u6e05\u695a\u3001\u8bda\u5b9e\uff0c\u4e5f\u4fdd\u7559\u4e00\u70b9\u4e2a\u4eba\u7684\u8bed\u6c14\u3002\u6b22\u8fce\u4f60\u6765\u8fd9\u91cc\u5750\u4e00\u4f1a\u513f\u3002", "font": "system", "size": "medium" }
+      ],
+      "body": "\u6211\u60f3\u628a\u8fd9\u91cc\u505a\u6210\u4e00\u4e2a\u53ef\u4ee5\u6162\u6162\u751f\u957f\u7684\u4e2a\u4eba\u7a7a\u95f4\u3002",
       "featured": true,
       "published": true
     },
     {
       "id": "small-notes",
       "slug": "small-notes-on-making",
-      "title": "关于持续创造的一点小想法",
+      "title": "\u5173\u4e8e\u6301\u7eed\u521b\u9020\u7684\u4e00\u70b9\u5c0f\u60f3\u6cd5",
       "date": "2026-10-03",
-      "category": "学习笔记",
-      "tags": ["创作", "记录"],
-      "excerpt": "把一个想法写下来，往往比等待一个完美的版本更重要。",
-      "body": "我越来越相信，记录不是完成之后的附加动作，而是工作本身的一部分。\n\n写下过程，才能看见自己真正做了什么，也更容易发现下一步。",
+      "category": "\u5b66\u4e60\u7b14\u8bb0",
+      "tags": ["\u521b\u4f5c", "\u8bb0\u5f55"],
+      "excerpt": "\u628a\u4e00\u4e2a\u60f3\u6cd5\u5199\u4e0b\u6765\uff0c\u5f80\u5f80\u6bd4\u7b49\u5f85\u4e00\u4e2a\u5b8c\u7f8e\u7684\u7248\u672c\u66f4\u91cd\u8981\u3002",
+      "bodyBlocks": [
+        { "type": "p", "text": "\u6211\u8d8a\u6765\u8d8a\u76f8\u4fe1\uff0c\u8bb0\u5f55\u4e0d\u662f\u5b8c\u6210\u4e4b\u540e\u7684\u9644\u52a0\u52a8\u4f5c\uff0c\u800c\u662f\u5de5\u4f5c\u672c\u8eab\u7684\u4e00\u90e8\u5206\u3002", "font": "system", "size": "medium" },
+        { "type": "h2", "text": "\u4e3a\u4ec0\u4e48\u8981\u8bb0\u5f55", "font": "system", "size": "large" },
+        { "type": "p", "text": "\u5199\u4e0b\u8fc7\u7a0b\uff0c\u624d\u80fd\u770b\u89c1\u81ea\u5df1\u771f\u6b63\u505a\u4e86\u4ec0\u4e48\uff0c\u4e5f\u66f4\u5bb9\u6613\u53d1\u73b0\u4e0b\u4e00\u6b65\u3002", "font": "system", "size": "medium" }
+      ],
+      "body": "\u6211\u8d8a\u6765\u8d8a\u76f8\u4fe1\uff0c\u8bb0\u5f55\u4e0d\u662f\u5b8c\u6210\u4e4b\u540e\u7684\u9644\u52a0\u52a8\u4f5c\uff0c\u800c\u662f\u5de5\u4f5c\u672c\u8eab\u7684\u4e00\u90e8\u5206\u3002",
       "featured": false,
       "published": true
     }
