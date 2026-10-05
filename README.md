@@ -4,8 +4,8 @@
 
 ## 在线地址
 
-- 网站：`https://harriethong846.github.io/harriethong-visual-editor/`
-- 可视化编辑器：`https://harriethong846.github.io/harriethong-visual-editor/editor/`
+- 网站：`https://harriethong846.github.io/harriethong-blog/`
+- 可视化编辑器：`https://harriethong846.github.io/harriethong-blog/editor/`
 
 ## 添加文章
 
