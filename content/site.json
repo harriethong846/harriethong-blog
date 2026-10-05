@@ -37,11 +37,24 @@
     ]
   },
   "pages": {
+    "home": {
+      "title": "首页",
+      "blocks": [
+        { "id": "home-intro", "type": "hero", "eyebrow": "PERSONAL NOTES / 2026", "title": "harriethong'blog", "body": "notes on ideas, work, reading, and everyday life", "buttonLabel": "浏览文章", "buttonUrl": "?page=articles" },
+        { "id": "home-featured", "type": "article-list", "title": "最新文章", "filter": "all", "limit": 5 },
+        { "id": "home-note", "type": "text", "title": "这里会放什么", "body": "学习笔记、工作中的思考、读过的书，以及一些不急着归类的生活片段。" }
+      ]
+    },
     "about": {
       "title": "\u5173\u4e8e\u6211",
       "eyebrow": "ABOUT",
       "heading": "\u4f60\u597d\uff0c\u6211\u662f Harriet\u3002",
-      "body": "\u8fd9\u662f\u6211\u7684\u4e2a\u4eba\u535a\u5ba2\u3002\u6211\u4f1a\u5728\u8fd9\u91cc\u8bb0\u5f55\u6b63\u5728\u5b66\u4e60\u7684\u4e1c\u897f\u3001\u5de5\u4f5c\u4e2d\u7684\u601d\u8003\u3001\u8bfb\u8fc7\u7684\u4e66\uff0c\u4ee5\u53ca\u4e00\u4e9b\u4e0d\u6025\u7740\u5f52\u7c7b\u7684\u751f\u6d3b\u7247\u6bb5\u3002\n\n\u8fd9\u4e2a\u7f51\u7ad9\u4f1a\u6301\u7eed\u66f4\u65b0\uff0c\u6b22\u8fce\u4ece\u6587\u7ae0\u5217\u8868\u5f00\u59cb\u9605\u8bfb\u3002"
+      "body": "\u8fd9\u662f\u6211\u7684\u4e2a\u4eba\u535a\u5ba2\u3002\u6211\u4f1a\u5728\u8fd9\u91cc\u8bb0\u5f55\u6b63\u5728\u5b66\u4e60\u7684\u4e1c\u897f\u3001\u5de5\u4f5c\u4e2d\u7684\u601d\u8003\u3001\u8bfb\u8fc7\u7684\u4e66\uff0c\u4ee5\u53ca\u4e00\u4e9b\u4e0d\u6025\u7740\u5f52\u7c7b\u7684\u751f\u6d3b\u7247\u6bb5\u3002\n\n\u8fd9\u4e2a\u7f51\u7ad9\u4f1a\u6301\u7eed\u66f4\u65b0\uff0c\u6b22\u8fce\u4ece\u6587\u7ae0\u5217\u8868\u5f00\u59cb\u9605\u8bfb\u3002",
+      "blocks": [
+        { "id": "about-heading", "type": "hero", "eyebrow": "ABOUT", "title": "你好，我是 Harriet。", "body": "一个持续学习、写作和记录的人。", "buttonLabel": "阅读文章", "buttonUrl": "?page=articles" },
+        { "id": "about-copy", "type": "text", "title": "关于这个空间", "body": "这是我的个人博客。我会在这里记录正在学习的东西、工作中的思考、读过的书，以及一些不急着归类的生活片段。" },
+        { "id": "about-links", "type": "links", "title": "找到我", "items": [ { "label": "GitHub", "url": "https://github.com/harriethong846" }, { "label": "Email", "url": "mailto:hello@example.com" } ] }
+      ]
     }
   },
   "articles": [

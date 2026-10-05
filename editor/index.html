@@ -8,7 +8,7 @@
   <body class="editor-body">
     <header class="editor-topbar">
       <div class="editor-mark"><span class="mark-dot"></span><strong>harriethong'blog</strong></div>
-      <div class="topbar-center"><span>编辑文章</span><select id="article-select"></select><button class="icon-button" id="new-article" title="添加新文章">＋</button></div>
+      <div class="topbar-center"><span>编辑页面</span><select id="page-select"><option value="home">首页</option><option value="about">关于我</option><option value="articles">文章</option></select><select id="article-select"></select><button class="icon-button" id="new-article" title="添加新文章">＋</button></div>
       <div class="topbar-actions"><span id="save-status">已保存</span><button class="ghost-button" id="preview-button">预览</button><button class="primary-button" id="publish-button">发布到 GitHub</button></div>
     </header>
     <div class="editor-layout">
@@ -18,6 +18,7 @@
           <p class="panel-help">选择文章后，在右侧编辑标题、摘要、分类和正文。保存会写入当前浏览器草稿。</p>
           <div id="article-list" class="editor-article-list"></div>
           <button class="wide-button add-button" id="new-article-side">＋ 新建文章</button>
+          <div id="page-block-panel" class="page-block-panel" hidden><div class="block-editor-heading"><strong>页面模块</strong><span>添加、删除或移动首页/关于页内容</span></div><div class="page-block-buttons"><button data-page-block="hero">＋ 大标题</button><button data-page-block="text">＋ 文字</button><button data-page-block="article-list">＋ 文章列表</button><button data-page-block="links">＋ 链接组</button><button data-page-block="divider">＋ 分隔线</button></div><div id="page-block-list" class="page-block-list"></div><div id="page-block-fields" class="page-block-fields-list"></div></div>
         </div>
         <div class="panel-content" data-panel="site">
           <div class="field-group"><label>博客名称</label><input id="site-title" type="text"></div>
